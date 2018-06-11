@@ -10,6 +10,8 @@ WORKDIR /data
 COPY entrypoint.sh /
 COPY assume.sh / 
 
+COPY VERSION . 
+
 RUN ln -s /assume.sh /usr/bin/assume && \
     chmod +x /entrypoint.sh && \
     chmod +x /assume.sh
