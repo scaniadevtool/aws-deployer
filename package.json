@@ -1,0 +1,10 @@
+{
+
+  "release": {
+    "extends": "@semantic-release/gitlab-config"  
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matsskoglund/gitlab-deployer.git"
+  }
+}
