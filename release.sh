@@ -1,6 +1,6 @@
 # bump version
 cd aws-deployer
-docker run --rm -v "$PWD":/app treeder/bump patch
+docker run --rm -v "$PWD":/app treeder/bump "$(git log -1 --pretty=%B)"
 
 version=`cat VERSION`
 echo "version: $version"
