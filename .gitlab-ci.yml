@@ -54,7 +54,9 @@ test-aws-deployer-semver:
 
 build-aws-deployer-docker:
   stage: build-aws-deployer-docker
-  script:
+  before_script:
+    - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+   script:
     - VERSION=$(cat aws-deployer/VERSION)
     - >
       docker build 
