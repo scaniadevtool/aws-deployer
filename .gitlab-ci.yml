@@ -76,8 +76,3 @@ build-aws-deployer-docker:
 test-aws-deployer-docker-docker:
   image:  matsskoglund/aws-deployer:docker
   <<: *test-aws-deployer-docker-template
-  
-test-aws-deployer-docker-semver:
-  services: 
-    - matsskoglund/aws-deployer:$VERSION-docker
-  <<: *test-aws-deployer-docker-template  
