@@ -21,7 +21,7 @@ variables:
 build-aws-deployer:
   stage: build-aws-deployer
   before_script:  
-    - docker login registry.gitlab.com
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" registry.gitlab.com
     - VERSION=$(cat aws-deployer/VERSION)
   script:
     - >
