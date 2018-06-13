@@ -14,7 +14,8 @@ stages:
 .job_template: &test-aws-deployer-docker-template
   stage: test-aws-deployer-docker
   script:
-    - docker build -t scaniadevtools/hello-truck .
+    - aws --version
+    - docker build aws-deployer-docker/Dockerfile
   tags:
     - dind
   dependencies:
@@ -73,5 +74,5 @@ test-aws-deployer-docker-docker:
   <<: *test-aws-deployer-docker-template
   
 test-aws-deployer-docker-semver:
-  image:  matsskoglund/aws-deployer:1.1.0-docker
+  image:  matsskoglund/aws-deployer:$VERSION-docker
   <<: *test-aws-deployer-docker-template  
