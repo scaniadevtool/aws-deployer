@@ -51,6 +51,7 @@ build-aws-deployer-docker:
     - >
       docker build 
       -t registry.gitlab.com/matsskoglund/aws-deployer:$VERSION-docker 
+      -t registry.gitlab.com/matsskoglund/aws-deployer:$docker
       aws-deployer-docker/.    
     - docker push registry.gitlab.com/matsskoglund/aws-deployer:$VERSION-docker
     - docker push registry.gitlab.com/matsskoglund/aws-deployer:docker
