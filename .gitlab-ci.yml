@@ -52,8 +52,8 @@ build-aws-deployer-docker:
   script:
     - >
       docker build 
-      -t push $TEST_REGISTRY/aws-deployer:$VERSION-docker 
-      -t push $TEST_REGISTRY/aws-deployer:docker
+      -t $TEST_REGISTRY/aws-deployer:$VERSION-docker 
+      -t $TEST_REGISTRY/aws-deployer:docker
       aws-deployer-docker/.    
     - docker $TEST_REGISTRY/aws-deployer:$VERSION-docker
     - docker $TEST_REGISTRY/aws-deployer:docker
