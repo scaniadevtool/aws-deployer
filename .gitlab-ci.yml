@@ -72,6 +72,7 @@ test-aws-deployer-docker-docker:
 publish-aws-deployer:
   stage: publish-aws-deployer
   before_script:
+    - VERSION=$(cat aws-deployer/VERSION)
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
   script:
     - docker pull registry.gitlab.com/matsskoglund/aws-deployer:latest
