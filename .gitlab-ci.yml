@@ -26,7 +26,7 @@ before_script:
 
 variables:
   DOCKER_DRIVER: overlay2  
-  VERSION: 1.0.0
+  VERSION: $(cat aws-deployer/VERSION)
  
 build-aws-deployer:
   stage: build-aws-deployer
