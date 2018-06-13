@@ -56,7 +56,7 @@ build-aws-deployer-docker:
   stage: build-aws-deployer-docker
   before_script:
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
-   script:
+  script:
     - VERSION=$(cat aws-deployer/VERSION)
     - >
       docker build 
