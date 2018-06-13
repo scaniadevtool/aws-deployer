@@ -78,5 +78,6 @@ test-aws-deployer-docker-docker:
   <<: *test-aws-deployer-docker-template
   
 test-aws-deployer-docker-semver:
-  service:  matsskoglund/aws-deployer:$VERSION-docker
+  services: 
+    - matsskoglund/aws-deployer:$VERSION-docker
   <<: *test-aws-deployer-docker-template  
