@@ -26,7 +26,7 @@ before_script:
 
 variables:
   DOCKER_DRIVER: overlay2  
-  VERSION: $(cat aws-deployer/VERSION)
+  
  
 build-aws-deployer:
   stage: build-aws-deployer
@@ -78,5 +78,5 @@ test-aws-deployer-docker-docker:
   <<: *test-aws-deployer-docker-template
   
 test-aws-deployer-docker-semver:
-  image:  matsskoglund/aws-deployer:$VERSION-docker
+  service:  matsskoglund/aws-deployer:$VERSION-docker
   <<: *test-aws-deployer-docker-template  
