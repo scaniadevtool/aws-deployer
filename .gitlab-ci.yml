@@ -9,7 +9,9 @@ stages:
 before_script:
   - VERSION=$(cat aws-deployer/VERSION)
 variables:
-  DOCKER_DRIVER: overlay2  
+  DOCKER_DRIVER: overlay2
+  TEST_REGISTRY: registry.gitlab.com/matsskoglund 
+  REGISTRY: matsskoglund
 
 .job_template: &test-aws-deployer-template
   stage: test-aws-deployer
@@ -26,20 +28,20 @@ build-aws-deployer:
   script:
     - >
       docker build 
-      -t registry.gitlab.com/matsskoglund/aws-deployer:$VERSION
-      -t registry.gitlab.com/matsskoglund/aws-deployer:latest 
+      -t /aws-deployer:$VERSION
+      -t $TEST_REGISTRY/aws-deployer:latest 
       aws-deployer/.
-    - docker push registry.gitlab.com/matsskoglund/aws-deployer:latest
-    - docker push registry.gitlab.com/matsskoglund/aws-deployer:$VERSION
+    - docker push $TEST_REGISTRY/aws-deployer:latest
+    - docker push $TEST_REGISTRY/aws-deployer:$VERSION
   tags: 
     - dind
 
 test-aws-deployer-latest:
-  image:  matsskoglund/aws-deployer:latest
+  image:  $TEST_REGISTRY/aws-deployer:latest
   <<: *test-aws-deployer-template
 
 test-aws-deployer-empty:
-  image:  matsskoglund/aws-deployer
+  image:  $TEST_REGISTRY/aws-deployer
   <<: *test-aws-deployer-template
 
 build-aws-deployer-docker:
@@ -50,18 +52,18 @@ build-aws-deployer-docker:
   script:
     - >
       docker build 
-      -t registry.gitlab.com/matsskoglund/aws-deployer:$VERSION-docker 
-      -t registry.gitlab.com/matsskoglund/aws-deployer:docker 
+      -t $TEST_REGISTRY/aws-deployer:$VERSION-docker 
+      -t $TEST_REGISTRY/aws-deployer:docker 
       aws-deployer-docker/.    
-    - docker push registry.gitlab.com/matsskoglund/aws-deployer:$VERSION-docker
-    - docker push registry.gitlab.com/matsskoglund/aws-deployer:docker
+    - docker $TEST_REGISTRY/aws-deployer:$VERSION-docker
+    - docker $TEST_REGISTRY/aws-deployer:docker
   tags:
     - dind
   dependencies:
     - test-aws-deployer-latest
 
 test-aws-deployer-docker-docker:
-  image:  matsskoglund/aws-deployer:docker
+  image:  $TEST_REGISTRY/aws-deployer:docker
   stage: test-aws-deployer-docker
   script:
     - aws --version
@@ -77,10 +79,10 @@ publish-aws-deployer:
     - VERSION=$(cat aws-deployer/VERSION)
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
   script:
-    - docker pull registry.gitlab.com/matsskoglund/aws-deployer:latest
-    - docker push matsskoglund/aws-deployer:latest
-    - docker pull registry.gitlab.com/matsskoglund/aws-deployer:latest
-    - docker push matsskoglund/aws-deployer:$VERSION    
+    - docker pull $TEST_REGISTRY/aws-deployer:latest
+    - docker push $REGISTRY/aws-deployer:latest
+    - docker pull $TEST_REGISTRY/aws-deployer:latest
+    - docker push $REGISTRY/aws-deployer:$VERSION    
   tags:
     - dind
   dependencies:
@@ -91,10 +93,10 @@ publish-aws-deployer-docker:
   before_script:
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
   script:
-    - docker pull registry.gitlab.com/matsskoglund/aws-deployer:docker
-    - docker push matsskoglund/aws-deployer:docker
-    - docker pull registry.gitlab.com/matsskoglund/aws-deployer:$VERSION-docker
-    - docker push matsskoglund/aws-deployer:$VERSION-docker
+    - docker pull $TEST_REGISTRY/aws-deployer:docker
+    - docker push $REGISTRY/aws-deployer:docker
+    - docker pull $TEST_REGISTRYaws-deployer:$VERSION-docker
+    - docker push $REGISTRY/aws-deployer:$VERSION-docker
   tags:
     - dind
   dependencies:
