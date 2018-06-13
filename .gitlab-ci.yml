@@ -3,9 +3,10 @@ stages:
   - test-aws-deployer
   - build-aws-deployer-docker
   - test-aws-deployer-docker
+
 before_script:
   - VERSION=$(cat aws-deployer/VERSION)
-  
+
 .job_template: &test-aws-deployer-template
   stage: test-aws-deployer
   script:
@@ -25,7 +26,8 @@ before_script:
 
 variables:
   DOCKER_DRIVER: overlay2  
-
+  VERSION: 1.0.0
+ 
 build-aws-deployer:
   stage: build-aws-deployer
   script:
