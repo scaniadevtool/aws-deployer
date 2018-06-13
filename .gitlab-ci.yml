@@ -26,7 +26,7 @@ variables:
 build-aws-deployer:
   stage: build-aws-deployer
   script:
-    - VERSION=$(cat version.txt)
+    - VERSION=$(cat aws-deployer/VERSION)
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
     - >
       docker build 
@@ -55,7 +55,7 @@ test-aws-deployer-semver:
 build-aws-deployer-docker:
   stage: build-aws-deployer-docker
   script:
-    - VERSION=$(cat version.txt)
+    - VERSION=$(cat aws-deployer/VERSION)
     - >
       docker build 
       -t matsskoglund/aws-deployer:$VERSION-docker 
