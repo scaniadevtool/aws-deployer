@@ -6,6 +6,8 @@ stages:
 
 before_script:
   - VERSION=$(cat aws-deployer/VERSION)
+variables:
+  DOCKER_DRIVER: overlay2  
 
 .job_template: &test-aws-deployer-template
   stage: test-aws-deployer
@@ -18,15 +20,11 @@ before_script:
   stage: test-aws-deployer-docker
   script:
     - aws --version
-    - docker build aws-deployer-docker/
+    - docker build aws-deployer-docker/test/
   tags:
     - dind
   dependencies:
-    - build-aws-deployer-docker
-
-variables:
-  DOCKER_DRIVER: overlay2  
-  
+    - build-aws-deployer-docker  
  
 build-aws-deployer:
   stage: build-aws-deployer
@@ -48,12 +46,10 @@ test-aws-deployer-latest:
   <<: *test-aws-deployer-template
 
 test-aws-deployer-empty:
-  stage: test
   image:  matsskoglund/aws-deployer
   <<: *test-aws-deployer-template
 
 test-aws-deployer-semver:
-  stage: test
   image:  matsskoglund/aws-deployer
   <<: *test-aws-deployer-template
 
