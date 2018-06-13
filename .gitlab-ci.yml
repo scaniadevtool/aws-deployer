@@ -69,18 +69,6 @@ test-aws-deployer-docker-docker:
   dependencies:
     - build-aws-deployer-docker
 
-test-aws-deployer-docker-docker:
-  stage: test-aws-deployer-docker
-  before_script:
-    - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
-  script:
-    - aws --version
-    - docker build aws-deployer-docker/test/
-  tags:
-    - dind
-  dependencies:
-    - build-aws-deployer-docker
-
 publish-aws-deployer:
   stage: publish-aws-deployer
   before_script:
