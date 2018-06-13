@@ -45,7 +45,7 @@ test-aws-deployer-empty:
 build-aws-deployer-docker:
   stage: build-aws-deployer-docker
   before_script:  
-    - docker login registry.gitlab.com
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" registry.gitlab.com
     - VERSION=$(cat aws-deployer/VERSION)
   script:
     - >
