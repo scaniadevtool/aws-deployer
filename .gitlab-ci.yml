@@ -15,7 +15,7 @@ stages:
   stage: test-aws-deployer-docker
   script:
     - aws --version
-    - docker build aws-deployer-docker/Dockerfile
+    - docker build aws-deployer-docker/
   tags:
     - dind
   dependencies:
