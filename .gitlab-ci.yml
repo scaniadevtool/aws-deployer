@@ -1,0 +1,75 @@
+stages:
+  - build-aws-deployer
+  - test-aws-deployer
+  - build-aws-deployer-docker
+  - test-aws-deployer-docker
+
+.job_template: &test-aws-deployer-template
+  stage: test-aws-deployer
+  script:
+    - aws --version
+  tags:
+    - vanilla
+
+.job_template: &test-aws-deployer-docker-template
+  stage: test-aws-deployer-docker
+  script:
+    - docker build -t scaniadevtools/hello-truck .
+  tags:
+    - dind
+  dependencies:
+    - build-aws-deployer-docker
+
+variables:
+  DOCKER_DRIVER: overlay2  
+
+build-aws-deployer:
+  stage: build-aws-deployer
+  script:
+    - VERSION=$(cat version.txt)
+    - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+    - >
+      docker build 
+      -t matsskoglund/aws-deployer:$VERSION
+      -t matsskoglund/aws-deployer:latest 
+      aws-deployer/.
+    - docker push matsskoglund/aws-deployer:latest
+    - docker push matsskoglund/aws-deployer:$VERSION    
+  tags: 
+    - dind
+
+test-aws-deployer-latest:
+  image:  matsskoglund/aws-deployer:latest
+  <<: *aws-deployer-template
+
+test-aws-deployer-empty:
+  stage: test
+  image:  matsskoglund/aws-deployer
+  <<: *aws-deployer-template
+
+test-aws-deployer-semver:
+  stage: test
+  image:  matsskoglund/aws-deployer
+  <<: *aws-deployer-template
+
+build-aws-deployer-docker:
+  stage: build-aws-deployer-docker
+  script:
+    - VERSION=$(cat version.txt)
+    - >
+      docker build 
+      -t matsskoglund/aws-deployer:$VERSION-docker 
+      aws-deployer-docker/.    
+    - docker push matsskoglund/aws-deployer:$VERSION-docker
+  tags:
+    - dind
+  dependencies:
+    - test-aws-deployer-latest
+
+test-aws-deployer-docker-docker:
+  image:  matsskoglund/aws-deployer:docker
+  <<: *aws-deployer-docker-template
+  
+test-aws-deployer-docker-semver:
+  image:  matsskoglund/aws-deployer:1.1.0-docker
+  <<: *aws-deployer-docker-template  
