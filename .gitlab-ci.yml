@@ -91,6 +91,7 @@ publish-aws-deployer:
 publish-aws-deployer-docker:
   stage: publish-aws-deployer-docker
   before_script:
+    - VERSION=$(cat aws-deployer/VERSION)
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
   script:
     - docker pull $TEST_REGISTRY/aws-deployer:docker
