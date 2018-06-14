@@ -130,4 +130,4 @@ cleaning:
   script:
     - docker image prune -a -f
   tags:
-    - docker
+    - dind
