@@ -41,6 +41,8 @@ build-aws-deployer:
     - dind
   except:
     - schedules
+  only:
+    - master
 
 test-aws-deployer-latest:
   image:  $TEST_REGISTRY/aws-deployer:latest
@@ -67,6 +69,8 @@ build-aws-deployer-docker:
     - dind
   except:
     - schedules
+  only:
+    - master
   dependencies:
     - test-aws-deployer-latest
 
@@ -80,6 +84,8 @@ test-aws-deployer-docker-docker:
     - dind
   except:
     - schedules
+  only:
+    - master
   dependencies:
     - build-aws-deployer-docker
 
@@ -100,6 +106,8 @@ publish-aws-deployer:
     - dind
   except:
     - schedules
+  only:
+    - master
   dependencies:
     - test-aws-deployer-latest
 
@@ -120,9 +128,24 @@ publish-aws-deployer-docker:
     - dind
   except:
     - schedules
+  only:
+    - master
   dependencies:
      - test-aws-deployer-docker-docker
      - publish-aws-deployer
+
+pull-request:
+  stage: build-aws-deployer
+  before_script:  
+    - VERSION=$(cat aws-deployer/VERSION)
+  script:
+      docker build -t aws-deployer:latest aws-deployer/.
+  tags: 
+    - dind
+  except:
+    - schedules
+    - master
+ 
 
 cleaning:
   stage: cleaning
