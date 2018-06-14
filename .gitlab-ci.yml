@@ -110,3 +110,9 @@ publish-aws-deployer-docker:
   dependencies:
      - test-aws-deployer-docker-docker
      - publish-aws-deployer
+
+cleaning:
+  only:
+    - schedules
+  script:
+    - docker image prune -a -f
