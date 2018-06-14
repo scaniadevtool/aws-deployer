@@ -31,7 +31,7 @@ test-aws-deployer-docker-docker:
   dependencies:
     - build-aws-deployer-docker
 
-    publish-aws-deployer-docker:
+publish-aws-deployer-docker:
   stage: publish-aws-deployer-docker
   before_script:
     - VERSION=$(cat aws-deployer/VERSION)
