@@ -70,7 +70,7 @@ publish-aws-deployer:
   dependencies:
     - test-aws-deployer-latest
 
-include: 'aws-deployer-docker/.gitlab-ci-docker.yml'
+include: '/aws-deployer-docker/.gitlab-ci-docker.yml'
 
 cleaning:
   stage: cleaning
