@@ -14,7 +14,6 @@ variables:
   REGISTRY: matsskoglund
   TEST_REGISTRY: registry.gitlab.com/$REGISTRY 
   
-
 .job_template: &test-aws-deployer-template
   stage: test-aws-deployer
   script:
@@ -130,3 +129,5 @@ cleaning:
     - schedules
   script:
     - docker image prune -a -f
+  tags:
+    - docker
