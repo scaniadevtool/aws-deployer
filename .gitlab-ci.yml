@@ -125,6 +125,7 @@ publish-aws-deployer-docker:
      - publish-aws-deployer
 
 cleaning:
+  stage: build-aws-deployer
   only:
     - schedules
   script:
