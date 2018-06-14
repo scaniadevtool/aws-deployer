@@ -10,8 +10,9 @@ before_script:
   - VERSION=$(cat aws-deployer/VERSION)
 variables:
   DOCKER_DRIVER: overlay2
-  TEST_REGISTRY: registry.gitlab.com/scaniadevtools 
-  REGISTRY: scaniadevtools
+  REGISTRY: matsskoglund
+  TEST_REGISTRY: registry.gitlab.com/$REGISTRY 
+  
 
 .job_template: &test-aws-deployer-template
   stage: test-aws-deployer
