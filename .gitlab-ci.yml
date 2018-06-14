@@ -1,4 +1,5 @@
 stages:
+  - cleaning
   - build-aws-deployer
   - test-aws-deployer
   - build-aws-deployer-docker
@@ -20,6 +21,8 @@ variables:
     - aws --version
   tags:
     - vanilla
+  except:
+    - schedules
  
 build-aws-deployer:
   stage: build-aws-deployer
@@ -36,6 +39,8 @@ build-aws-deployer:
     - docker push $TEST_REGISTRY/aws-deployer:$VERSION
   tags: 
     - dind
+  except:
+    - schedules
 
 test-aws-deployer-latest:
   image:  $TEST_REGISTRY/aws-deployer:latest
@@ -60,6 +65,8 @@ build-aws-deployer-docker:
     - docker push $TEST_REGISTRY/aws-deployer:docker
   tags:
     - dind
+  except:
+    - schedules
   dependencies:
     - test-aws-deployer-latest
 
@@ -71,6 +78,8 @@ test-aws-deployer-docker-docker:
     - docker build aws-deployer-docker/test/
   tags:
     - dind
+  except:
+    - schedules
   dependencies:
     - build-aws-deployer-docker
 
@@ -89,6 +98,8 @@ publish-aws-deployer:
     - docker push $REGISTRY/aws-deployer:$VERSION    
   tags:
     - dind
+  except:
+    - schedules
   dependencies:
     - test-aws-deployer-latest
 
@@ -107,6 +118,8 @@ publish-aws-deployer-docker:
     - docker push $REGISTRY/aws-deployer:$VERSION-docker
   tags:
     - dind
+  except:
+    - schedules
   dependencies:
      - test-aws-deployer-docker-docker
      - publish-aws-deployer
