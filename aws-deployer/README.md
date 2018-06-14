@@ -2,11 +2,10 @@ AWS Deployer Docker Image
 =================================
 This repository contains Docker image for running AWS cli commands that assumes a IAM role baked into one cli command. They can be useful for deploying AWS CloudFormation templates in e.g. a build server where the build server need to assume some other role to deploy.
 
-For usage details go (here)[aws-deployer]
 
 Extensions
 =========
-There are extensions avaliable for the base image that extends the functionality. See the (master readme)[../README.md]
+There are extensions avaliable for the base image that extends the functionality. See the [master readme](../README.md)
  
 
 

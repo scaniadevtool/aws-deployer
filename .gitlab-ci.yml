@@ -10,8 +10,8 @@ before_script:
   - VERSION=$(cat aws-deployer/VERSION)
 variables:
   DOCKER_DRIVER: overlay2
-  TEST_REGISTRY: registry.gitlab.com/matsskoglund 
-  REGISTRY: matsskoglund
+  TEST_REGISTRY: registry.gitlab.com/scaniadevtools 
+  REGISTRY: scaniadevtools
 
 .job_template: &test-aws-deployer-template
   stage: test-aws-deployer
@@ -78,10 +78,13 @@ publish-aws-deployer:
   before_script:
     - VERSION=$(cat aws-deployer/VERSION)
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" registry.gitlab.com
   script:
     - docker pull $TEST_REGISTRY/aws-deployer:latest
+    - docker tag $TEST_REGISTRY/aws-deployer:latest $REGISTRY/aws-deployer:latest
     - docker push $REGISTRY/aws-deployer:latest
     - docker pull $TEST_REGISTRY/aws-deployer:$VERSION
+    - docker tag $TEST_REGISTRY/aws-deployer:$VERSION $REGISTRY/aws-deployer:$VERSION
     - docker push $REGISTRY/aws-deployer:$VERSION    
   tags:
     - dind
@@ -93,10 +96,13 @@ publish-aws-deployer-docker:
   before_script:
     - VERSION=$(cat aws-deployer/VERSION)
     - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" registry.gitlab.com
   script:
     - docker pull $TEST_REGISTRY/aws-deployer:docker
+    - docker tag $TEST_REGISTRY/aws-deployer:docker $REGISTRY/aws-deployer:docker
     - docker push $REGISTRY/aws-deployer:docker
     - docker pull $TEST_REGISTRY/aws-deployer:$VERSION-docker
+    - docker tag $TEST_REGISTRY/aws-deployer:$VERSION-docker $REGISTRY/aws-deployer:$VERSION-docker
     - docker push $REGISTRY/aws-deployer:$VERSION-docker
   tags:
     - dind

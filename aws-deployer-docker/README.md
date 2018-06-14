@@ -1,5 +1,3 @@
-[![Docker status](https://dockerbuildbadges.quelltext.eu/status.svg?organization=scaniadevtools&repository=aws-deployer)](https://hub.docker.com/r/scaniadevtools/aws-deployer/builds/)
-
 AWS Deployer Docker - Docker Image
 =================================
 This repository contains an extension of the aws-deployer docker image that adds possiblity to run docker commands inside the container.
