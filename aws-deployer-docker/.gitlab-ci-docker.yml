@@ -1,0 +1,53 @@
+build-aws-deployer-docker:
+  stage: build-aws-deployer-docker
+  before_script:  
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" registry.gitlab.com
+    - VERSION=$(cat aws-deployer/VERSION)
+  script:
+    - >
+      docker build 
+      -t $TEST_REGISTRY/aws-deployer:$VERSION-docker 
+      -t $TEST_REGISTRY/aws-deployer:docker
+      aws-deployer-docker/.    
+    - docker push $TEST_REGISTRY/aws-deployer:$VERSION-docker
+    - docker push $TEST_REGISTRY/aws-deployer:docker
+  tags:
+    - dind
+  except:
+    - schedules
+  dependencies:
+    - test-aws-deployer-latest
+
+test-aws-deployer-docker-docker:
+  image:  $TEST_REGISTRY/aws-deployer:docker
+  stage: test-aws-deployer-docker
+  script:
+    - aws --version
+    - docker build aws-deployer-docker/test/
+  tags:
+    - dind
+  except:
+    - schedules
+  dependencies:
+    - build-aws-deployer-docker
+
+    publish-aws-deployer-docker:
+  stage: publish-aws-deployer-docker
+  before_script:
+    - VERSION=$(cat aws-deployer/VERSION)
+    - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+    - docker login -u "gitlab-ci-token" -p "$CI_JOB_TOKEN" registry.gitlab.com
+  script:
+    - docker pull $TEST_REGISTRY/aws-deployer:docker
+    - docker tag $TEST_REGISTRY/aws-deployer:docker $REGISTRY/aws-deployer:docker
+    - docker push $REGISTRY/aws-deployer:docker
+    - docker pull $TEST_REGISTRY/aws-deployer:$VERSION-docker
+    - docker tag $TEST_REGISTRY/aws-deployer:$VERSION-docker $REGISTRY/aws-deployer:$VERSION-docker
+    - docker push $REGISTRY/aws-deployer:$VERSION-docker
+  tags:
+    - dind
+  except:
+    - schedules
+  dependencies:
+     - test-aws-deployer-docker-docker
+     - publish-aws-deployer
