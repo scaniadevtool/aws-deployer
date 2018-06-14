@@ -95,7 +95,7 @@ publish-aws-deployer-docker:
   script:
     - docker pull $TEST_REGISTRY/aws-deployer:docker
     - docker push $REGISTRY/aws-deployer:docker
-    - docker pull $TEST_REGISTRYaws-deployer:$VERSION-docker
+    - docker pull $TEST_REGISTRY/aws-deployer:$VERSION-docker
     - docker push $REGISTRY/aws-deployer:$VERSION-docker
   tags:
     - dind
