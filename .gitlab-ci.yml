@@ -81,7 +81,7 @@ publish-aws-deployer:
   script:
     - docker pull $TEST_REGISTRY/aws-deployer:latest
     - docker push $REGISTRY/aws-deployer:latest
-    - docker pull $TEST_REGISTRY/aws-deployer:latest
+    - docker pull $TEST_REGISTRY/aws-deployer:$VERSION
     - docker push $REGISTRY/aws-deployer:$VERSION    
   tags:
     - dind
