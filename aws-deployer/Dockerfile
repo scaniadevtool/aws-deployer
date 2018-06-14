@@ -1,4 +1,4 @@
-FROM python:3.6-alipne3.7
+FROM python:3.6-alpine3.7
 
 RUN apk --no-cache update && \
     apk --no-cache add ca-certificates groff less jq bash && \
